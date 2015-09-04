@@ -1,5 +1,8 @@
 package eu.pavan.testingapplicationics.data;
 
+import android.text.Spanned;
+import android.text.SpannedString;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,20 +15,30 @@ import java.util.Map;
  */
 public class ArticleData {
 
-    private static final Article emptyArticle = new Article("0", "No Article", "No Content");
+    private static final Article emptyArticle = new Article("0", new SpannedString("No Article"), new SpannedString("No Content"));
 
     /**
      * An array of sample (dummy) items.
      */
-    public static List<Article> ARTICLES = new ArrayList<Article>();
+    public static List<Article> ARTICLES = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static Map<String, Article> ARTICLE_MAP = new HashMap<String, Article>();
+    public static Map<String, Article> ARTICLE_MAP = new HashMap<>();
 
     static {
         addArticle(emptyArticle);
+    }
+
+    public static void addArticles(List<Article> items) {
+        if (ARTICLES.contains(emptyArticle)) {
+            ARTICLES.clear();
+        }
+        for (Article item : items) {
+            ARTICLES.add(item);
+            ARTICLE_MAP.put(item.id, item);
+        }
     }
 
     public static void addArticle(Article item) {
@@ -41,18 +54,13 @@ public class ArticleData {
      */
     public static class Article {
         public String id;
-        public String content;
-        public String heading;
+        public Spanned content;
+        public Spanned heading;
 
-        public Article(String id, String heading, String content) {
+        public Article(String id, Spanned heading, Spanned content) {
             this.id = id;
             this.content = content;
             this.heading = heading;
-        }
-
-        @Override
-        public String toString() {
-            return content;
         }
     }
 
